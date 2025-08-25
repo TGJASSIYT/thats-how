@@ -1,0 +1,116 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Circles</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    .toggle-btn {
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #333;
+      color: #fff;
+      font-size: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 30px;
+      width: 100%;
+      max-width: 800px;
+    }
+    .color-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    .code {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      background: #fff;
+      padding: 4px 8px;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .copy-btn {
+      margin-left: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #666;
+    }
+    .copy-btn:hover {
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <button class="toggle-btn" onclick="toggleFormat()">Switch to RGB</button>
+  <div class="grid" id="colorGrid"></div>  <script>
+    const colors = [
+      {name: "Black", hex: "#000000", rgb: "rgb(0,0,0)"},
+      {name: "White", hex: "#FFFFFF", rgb: "rgb(255,255,255)"},
+      {name: "Red", hex: "#FF0000", rgb: "rgb(255,0,0)"},
+      {name: "Dark Grey", hex: "#A9A9A9", rgb: "rgb(169,169,169)"},
+      {name: "Grey", hex: "#808080", rgb: "rgb(128,128,128)"},
+      {name: "Light Grey", hex: "#D3D3D3", rgb: "rgb(211,211,211)"},
+      {name: "Light Blue", hex: "#ADD8E6", rgb: "rgb(173,216,230)"},
+      {name: "Blue", hex: "#0000FF", rgb: "rgb(0,0,255)"},
+      {name: "Dark Blue", hex: "#00008B", rgb: "rgb(0,0,139)"}
+    ];
+
+    let showHex = true;
+
+    function renderColors() {
+      const grid = document.getElementById("colorGrid");
+      grid.innerHTML = "";
+      colors.forEach(c => {
+        const card = document.createElement("div");
+        card.className = "color-card";
+
+        const circle = document.createElement("div");
+        circle.className = "circle";
+        circle.style.background = c.hex;
+
+        const code = document.createElement("div");
+        code.className = "code";
+        code.innerHTML = `${showHex ? c.hex : c.rgb}`;
+
+        const copy = document.createElement("span");
+        copy.className = "copy-btn";
+        copy.innerHTML = "📋";
+        copy.onclick = () => navigator.clipboard.writeText(showHex ? c.hex : c.rgb);
+
+        code.appendChild(copy);
+        card.appendChild(circle);
+        card.appendChild(code);
+        grid.appendChild(card);
+      });
+    }
+
+    function toggleFormat() {
+      showHex = !showHex;
+      document.querySelector(".toggle-btn").innerText = showHex ? "Switch to RGB" : "Switch to HEX";
+      renderColors();
+    }
+
+    renderColors();
+  </script></body>
+</html>
