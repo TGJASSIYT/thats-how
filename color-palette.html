@@ -67,6 +67,7 @@
 </head>
 <body>
   <button class="toggle-btn" onclick="toggleFormat()">Switch to RGB</button>
+  <button class="toggle-btn" onclick="copyAll()">Copy All</button>
   <div class="grid" id="colorGrid"></div>  <script>
     const colors = [
       {name: "Black", hex: "#000000", rgb: "rgb(0,0,0)"},
@@ -113,6 +114,13 @@
       showHex = !showHex;
       document.querySelector(".toggle-btn").innerText = showHex ? "Switch to RGB" : "Switch to HEX";
       renderColors();
+    }
+    
+    function copyAll() {
+      const allCodes = colors.map(c => showHex ? c.hex : c.rgb).join(", ");
+      navigator.clipboard.writeText(allCodes).then(() => {
+      alert("All codes copied!");
+    });
     }
 
     renderColors();
